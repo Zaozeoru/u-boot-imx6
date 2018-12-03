@@ -1,0 +1,15 @@
+if TARGET_MX6SXTIONPRO6
+
+config SYS_BOARD
+	default "mx6sxtionpro6"
+
+config SYS_VENDOR
+	default "freescale"
+
+config SYS_CONFIG_NAME
+	default "mx6sxtionpro6"
+
+config MX6SXSABRESD_EMMC_REWORK
+	bool "Select for the board with eMMC rework"
+
+endif

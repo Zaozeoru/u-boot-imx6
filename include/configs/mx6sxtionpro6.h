@@ -115,6 +115,7 @@
 		"fi;\0" \
 	"ethaddr=70:53:d5:a5:e0:01\0" \
 	"eth1addr=70:53:d5:a5:e0:02\0" \
+	"ipaddr=192.168.1.55\0" \
 	"netargs=setenv bootargs console=${console},${baudrate} " \
 		"root=/dev/nfs " \
 	"ip=dhcp nfsroot=${serverip}:${nfsroot},v3,tcp\0" \
@@ -213,11 +214,11 @@
 #define CONFIG_FEC_MXC
 #define CONFIG_MII
 
-#define CONFIG_FEC_ENET_DEV 1
+#define CONFIG_FEC_ENET_DEV 0
 
 #if (CONFIG_FEC_ENET_DEV == 0)
 #define IMX_FEC_BASE			ENET_BASE_ADDR
-#define CONFIG_FEC_MXC_PHYADDR          0x1
+#define CONFIG_FEC_MXC_PHYADDR          0x0
 #ifdef CONFIG_DM_ETH
 #define CONFIG_ETHPRIME                 "eth0"
 #else
@@ -225,7 +226,7 @@
 #endif
 #elif (CONFIG_FEC_ENET_DEV == 1)
 #define IMX_FEC_BASE			ENET2_BASE_ADDR
-#define CONFIG_FEC_MXC_PHYADDR          0x0
+#define CONFIG_FEC_MXC_PHYADDR          0x4
 #ifdef CONFIG_DM_ETH
 #define CONFIG_ETHPRIME                 "eth1"
 #else

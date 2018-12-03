@@ -994,26 +994,7 @@
 				compatible = "fsl,imx6sx-usbmisc", "fsl,imx6q-usbmisc";
 				reg = <0x02184800 0x200>;
 				clocks = <&clks IMX6SX_CLK_USBOH3>;
-			};
-
-			fec1: ethernet@02188000 {
-				compatible = "fsl,imx6sx-fec", "fsl,imx6q-fec";
-				reg = <0x02188000 0x4000>;
-				interrupts = <GIC_SPI 118 IRQ_TYPE_LEVEL_HIGH>,
-					     <GIC_SPI 119 IRQ_TYPE_LEVEL_HIGH>;
-				clocks = <&clks IMX6SX_CLK_ENET>,
-					 <&clks IMX6SX_CLK_ENET_AHB>,
-					 <&clks IMX6SX_CLK_ENET_PTP>,
-					 <&clks IMX6SX_CLK_ENET_REF>,
-					 <&clks IMX6SX_CLK_ENET_PTP>;
-				clock-names = "ipg", "ahb", "ptp",
-					      "enet_clk_ref", "enet_out";
-				fsl,num-tx-queues=<3>;
-				fsl,num-rx-queues=<3>;
-				stop-mode = <&gpr 0x10 3>;
-				fsl,wakeup_irq = <0>;
-				status = "disabled";
-                        };
+			};			
 
 			mlb: mlb@0218c000 {
 				compatible = "fsl,imx6sx-mlb50";
@@ -1128,6 +1109,25 @@
 				fsl,wakeup_irq = <0>;
 				status = "disabled";
 			};
+			
+			fec1: ethernet@02188000 {
+				compatible = "fsl,imx6sx-fec", "fsl,imx6q-fec";
+				reg = <0x02188000 0x4000>;
+				interrupts = <GIC_SPI 118 IRQ_TYPE_LEVEL_HIGH>,
+					     <GIC_SPI 119 IRQ_TYPE_LEVEL_HIGH>;
+				clocks = <&clks IMX6SX_CLK_ENET>,
+					 <&clks IMX6SX_CLK_ENET_AHB>,
+					 <&clks IMX6SX_CLK_ENET_PTP>,
+					 <&clks IMX6SX_CLK_ENET_REF>,
+					 <&clks IMX6SX_CLK_ENET_PTP>;
+				clock-names = "ipg", "ahb", "ptp",
+					      "enet_clk_ref", "enet_out";
+				fsl,num-tx-queues=<3>;
+				fsl,num-rx-queues=<3>;
+				stop-mode = <&gpr 0x10 3>;
+				fsl,wakeup_irq = <0>;
+				status = "disabled";
+                        };
 
 			weim: weim@021b8000 {
 				compatible = "fsl,imx6sx-weim", "fsl,imx6q-weim";
