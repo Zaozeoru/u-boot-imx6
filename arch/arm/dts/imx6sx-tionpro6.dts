@@ -298,12 +298,12 @@
 		#address-cells = <1>;
 		#size-cells = <0>;
 
-		ethphy1: ethernet-phy@0 {
-			reg = <0>;
+		ethphy1: ethernet-phy@4 {
+			reg = <4>;
 		};
 
-		ethphy2: ethernet-phy@4 {
-			reg = <4>;
+		ethphy2: ethernet-phy@5 {
+			reg = <5>;
 		};
 	};
 };
@@ -793,7 +793,7 @@
 			fsl,pins = <
 				MX6SX_PAD_ENET1_CRS__ENET2_MDIO            0x000a0B1
                 		MX6SX_PAD_ENET1_MDC__ENET2_MDC             0x000a0b1   
-				MX6SX_PAD_RGMII2_RD0__ENET2_RX_DATA_0      0x00003081
+				MX6SX_PAD_RGMII2_RD0__ENET2_RX_DATA_0      0x00007081
                 		MX6SX_PAD_RGMII2_RD1__ENET2_RX_DATA_1      0x00003081
                 		MX6SX_PAD_RGMII2_RD2__ENET2_RX_DATA_2      0x00007081
                 		MX6SX_PAD_RGMII2_RD3__ENET2_RX_DATA_3      0x00007081
