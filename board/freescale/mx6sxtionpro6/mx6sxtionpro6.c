@@ -154,12 +154,13 @@ static iomux_v3_cfg_t const usdhc4_emmc_pads[] = {
 
 static iomux_v3_cfg_t const wdog_b_pad = {
 	MX6_PAD_GPIO1_IO13__GPIO1_IO_13 | MUX_PAD_CTRL(WDOG_PAD_CTRL),
+	MX6_PAD_QSPI1B_DATA2__GPIO4_IO_26 | MUX_PAD_CTRL(NO_PAD_CTRL),
 };
 static iomux_v3_cfg_t const fec1_pads[] = {
 	//MX6_PAD_ENET1_MDC__ENET1_MDC | MUX_PAD_CTRL(ENET_PAD_CTRL),
 	//MX6_PAD_ENET1_MDIO__ENET1_MDIO | MUX_PAD_CTRL(ENET_PAD_CTRL),
 	MX6_PAD_RGMII1_RX_CTL__ENET1_RX_EN | MUX_PAD_CTRL(PAD_CTL_PUS_100K_DOWN | PAD_CTL_PKE | PAD_CTL_PUE | PAD_CTL_SPEED_HIGH   | PAD_CTL_SRE_FAST),
-	MX6_PAD_RGMII1_RD0__ENET1_RX_DATA_0 | MUX_PAD_CTRL(ENET_RX_PAD_CTRL),
+	MX6_PAD_RGMII1_RD0__ENET1_RX_DATA_0 | MUX_PAD_CTRL(PAD_CTL_PUS_47K_UP | PAD_CTL_PKE | PAD_CTL_PUE | PAD_CTL_SPEED_HIGH   | PAD_CTL_SRE_FAST),
 	MX6_PAD_RGMII1_RD1__ENET1_RX_DATA_1 | MUX_PAD_CTRL(ENET_RX_PAD_CTRL),
 	MX6_PAD_RGMII1_RD2__ENET1_RX_DATA_2 | MUX_PAD_CTRL(PAD_CTL_PUS_47K_UP | PAD_CTL_PKE | PAD_CTL_PUE | PAD_CTL_SPEED_HIGH   | PAD_CTL_SRE_FAST),
 	MX6_PAD_RGMII1_RD3__ENET1_RX_DATA_3 | MUX_PAD_CTRL(PAD_CTL_PUS_47K_UP | PAD_CTL_PKE | PAD_CTL_PUE | PAD_CTL_SPEED_HIGH   | PAD_CTL_SRE_FAST),
@@ -176,7 +177,7 @@ static iomux_v3_cfg_t const fec2_pads[] = {
 	MX6_PAD_ENET1_MDC__ENET2_MDC | MUX_PAD_CTRL(ENET_PAD_CTRL),
 	MX6_PAD_ENET1_MDIO__ENET2_MDIO | MUX_PAD_CTRL(ENET_PAD_CTRL),
 	MX6_PAD_RGMII2_RX_CTL__ENET2_RX_EN | MUX_PAD_CTRL(PAD_CTL_PUS_100K_DOWN | PAD_CTL_PKE | PAD_CTL_PUE | PAD_CTL_SPEED_HIGH   | PAD_CTL_SRE_FAST),
-	MX6_PAD_RGMII2_RD0__ENET2_RX_DATA_0 | MUX_PAD_CTRL(ENET_RX_PAD_CTRL),
+	MX6_PAD_RGMII2_RD0__ENET2_RX_DATA_0 | MUX_PAD_CTRL(PAD_CTL_PUS_100K_DOWN | PAD_CTL_PKE | PAD_CTL_PUE | PAD_CTL_SPEED_HIGH   | PAD_CTL_SRE_FAST),
 	MX6_PAD_RGMII2_RD1__ENET2_RX_DATA_1 | MUX_PAD_CTRL(ENET_RX_PAD_CTRL),
 	MX6_PAD_RGMII2_RD2__ENET2_RX_DATA_2 | MUX_PAD_CTRL(PAD_CTL_PUS_47K_UP | PAD_CTL_PKE | PAD_CTL_PUE | PAD_CTL_SPEED_HIGH   | PAD_CTL_SRE_FAST),
 	MX6_PAD_RGMII2_RD3__ENET2_RX_DATA_3 | MUX_PAD_CTRL(PAD_CTL_PUS_47K_UP | PAD_CTL_PKE | PAD_CTL_PUE | PAD_CTL_SPEED_HIGH   | PAD_CTL_SRE_FAST),
@@ -201,7 +202,7 @@ static iomux_v3_cfg_t const phy_control_pads[] = {
 	//MX6_PAD_ENET2_COL__GPIO2_IO_6 | MUX_PAD_CTRL(NO_PAD_CTRL),
 
 	/* AR8031 PHY Reset */
-	MX6_PAD_ENET2_COL__GPIO2_IO_6 | MUX_PAD_CTRL(NO_PAD_CTRL),
+	MX6_PAD_ENET2_COL__GPIO2_IO_6 | MUX_PAD_CTRL(NO_PAD_CTRL ),
 	MX6_PAD_ENET2_CRS__GPIO2_IO_7 | MUX_PAD_CTRL(NO_PAD_CTRL),
 };
 
@@ -230,9 +231,9 @@ static int setup_fec(int fec_id)
 	struct anatop_regs *anatop = (struct anatop_regs *)ANATOP_BASE_ADDR;
 	int reg, ret;	
 	
-	if (0 == fec_id/*CONFIG_FEC_ENET_DEV*/)
+	//if (0 == fec_id/*CONFIG_FEC_ENET_DEV*/)
 		imx_iomux_v3_setup_multiple_pads(fec1_pads, ARRAY_SIZE(fec1_pads));
-	else
+	//else
 		imx_iomux_v3_setup_multiple_pads(fec2_pads, ARRAY_SIZE(fec2_pads));		
 
 	if (0 == fec_id)
@@ -254,17 +255,21 @@ static int setup_fec(int fec_id)
 	//gpio_direction_output(IMX_GPIO_NR(2, 6) , 0);
 
 	/* Reset AR8031 PHY */
-	if (0 == fec_id) {
-		gpio_request(IMX_GPIO_NR(2, 7), "ar8031 reset");
-		gpio_direction_output(IMX_GPIO_NR(2, 7) , 0);
+	//if (0 == fec_id) {
+		gpio_request(IMX_GPIO_NR(2, 7), "ar8035-1 reset");
+		gpio_direction_output(IMX_GPIO_NR(2, 7) , 1);
+		mdelay(10);
+		gpio_set_value(IMX_GPIO_NR(2, 7), 0);
 		mdelay(10);
 		gpio_set_value(IMX_GPIO_NR(2, 7), 1);
-	} else {
-		gpio_request(IMX_GPIO_NR(2, 6), "ar8031 reset");
-		gpio_direction_output(IMX_GPIO_NR(2, 7) , 0);
+	//} else {
+		gpio_request(IMX_GPIO_NR(2, 6), "ar8035-2 reset");
+		gpio_direction_output(IMX_GPIO_NR(2, 6) , 1);
+		mdelay(10);
+		gpio_set_value(IMX_GPIO_NR(2, 6), 0);
 		mdelay(10);
 		gpio_set_value(IMX_GPIO_NR(2, 6), 1);
-	};
+	//};
 
 	reg = readl(&anatop->pll_enet);
 	reg |= BM_ANADIG_PLL_ENET_REF_25M_ENABLE;
@@ -276,9 +281,9 @@ static int setup_fec(int fec_id)
 int board_eth_init(bd_t *bis)
 {
 	// calls only after soft reset on imx6sx ?
-	if (0 == CONFIG_FEC_ENET_DEV)
+	//if (0 == CONFIG_FEC_ENET_DEV)
 		imx_iomux_v3_setup_multiple_pads(fec1_pads, ARRAY_SIZE(fec1_pads));
-	else
+	//else
 		imx_iomux_v3_setup_multiple_pads(fec2_pads, ARRAY_SIZE(fec2_pads));
 		
 	return cpu_eth_init(bis);
@@ -918,7 +923,26 @@ struct display_info_t const displays[] = {{
 		.vsync_len      = 10,
 		.sync           = 0,
 		.vmode          = FB_VMODE_NONINTERLACED
-} } };
+} } , {
+	.bus = MX6SX_LCDIF1_BASE_ADDR,
+	.addr = 0,
+	.pixfmt = 18,
+	.detect = NULL,
+	.enable	= do_enable_parallel_lcd,
+	.mode	= {
+		.name			= "TFT-VGA",
+		.xres           = 640,
+		.yres           = 480,
+		.pixclock       = 25000,
+		.left_margin    = 75,
+		.right_margin   = 75,
+		.upper_margin   = 25,
+		.lower_margin   = 10,
+		.hsync_len      = 10,
+		.vsync_len      = 10,
+		.sync           = 0,
+		.vmode          = FB_VMODE_NONINTERLACED
+} }};
 size_t display_count = ARRAY_SIZE(displays);
 #endif
 
@@ -935,12 +959,15 @@ int board_init(void)
 	 * as GPIO mux firstly here to workaround it.
 	 */
 	imx_iomux_v3_setup_pad(wdog_b_pad);
+	// gpio-wdt HI_Z
+	gpio_request(IMX_GPIO_NR(4, 26), "wdi");
+	gpio_direction_input(IMX_GPIO_NR(4, 26));
 
 	/* Enable PERI_3V3, which is used by SD2, ENET, LVDS, BT */
 	imx_iomux_v3_setup_multiple_pads(peri_3v3_pads,
 					 ARRAY_SIZE(peri_3v3_pads));
 
-	/* Active high for ncp692 */
+	/* Active high for rt8070 */	
 	gpio_request(IMX_GPIO_NR(4, 16), "peri_3v3");
 	gpio_direction_output(IMX_GPIO_NR(4, 16) , 1);
 
