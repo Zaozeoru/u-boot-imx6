@@ -831,7 +831,8 @@ static iomux_v3_cfg_t const lcd_pads[] = {
 	MX6_PAD_LCD1_RESET__GPIO3_IO_27 | MUX_PAD_CTRL(NO_PAD_CTRL),
 
 	/* Use GPIO for Brightness adjustment, duty cycle = period */
-	MX6_PAD_SD1_DATA2__GPIO6_IO_4 | MUX_PAD_CTRL(NO_PAD_CTRL),
+	//MX6_PAD_SD1_DATA2__GPIO6_IO_4 | MUX_PAD_CTRL(NO_PAD_CTRL),
+	MX6_PAD_LCD1_DATA20__GPIO3_IO_21 | MUX_PAD_CTRL(NO_PAD_CTRL),
 };
 
 void do_enable_lvds(struct display_info_t const *dev)
@@ -881,8 +882,8 @@ void do_enable_parallel_lcd(struct display_info_t const *dev)
 	gpio_direction_output(IMX_GPIO_NR(3, 27) , 1);
 
 	/* Set Brightness to high */
-	gpio_request(IMX_GPIO_NR(6, 4), "lcd backlight");
-	gpio_direction_output(IMX_GPIO_NR(6, 4) , 1);
+	gpio_request(IMX_GPIO_NR(3, 21), "lcd backlight");
+	gpio_direction_output(IMX_GPIO_NR(3, 21) , 1);
 }
 
 struct display_info_t const displays[] = {{
